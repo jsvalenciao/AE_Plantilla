@@ -34,11 +34,30 @@
             .no-print { display: none !important; }
             body { background: white !important; overflow: visible !important; }
             #root, main { height: auto !important; overflow: visible !important; }
+            .break-before-page { break-before: page; }
         }
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* --- AGREGA ESTO PARA ESTANDARIZAR TEXTOS --- */
+        /* Fuerza que todos los H1 dentro del contenedor principal sean iguales */
+        .standard-view-container h1, .print\:block h1 {
+            font-size: 2.25rem !important; /* 36px */
+            line-height: 2.5rem !important;
+            font-weight: 900 !important;
+            color: #004A3B !important;
+            letter-spacing: -0.025em !important;
+            margin-bottom: 0.5rem !important;
+        }
+        /* Fuerza que todos los párrafos introductorios sean iguales */
+        .standard-view-container h1 + p, .print\:block h1 + p {
+            font-size: 1.125rem !important; /* 18px */
+            color: #64748b !important;
+            font-weight: 500 !important;
+            margin-bottom: 2rem !important;
+        }
     </style>
 </head>
 <body class="antialiased text-slate-900 overflow-hidden">
