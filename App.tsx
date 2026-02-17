@@ -81,7 +81,7 @@ const App: React.FC = () => {
           <div className="flex items-center gap-4 shrink-0 mr-8 cursor-pointer" onClick={() => navigateTo(View.INICIO)}>
             {/* LOGO ACTUALIZADO: Asegúrate de subir 'logo_sb.png' a la raíz de tu repo */}
             <img 
-              src="./logo_sb.png" 
+              src="./SBLogo.png" 
               alt="Seguros Bolívar" 
               className="h-12 w-auto object-contain"
               onError={(e) => { e.currentTarget.src = "https://placehold.co/100x40?text=Bolivar"; }}
