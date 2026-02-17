@@ -13,8 +13,6 @@ import RecommendationsView from './views/RecommendationsView.tsx';
 import RisksView from './views/RisksView.tsx';
 import RoadmapView from './views/RoadmapView.tsx';
 import HomeView from './views/HomeView.tsx';
-// @ts-ignore
-import logo from './SBLogo.png';
 
 console.log('📦 App.tsx cargado correctamente.');
 
@@ -80,19 +78,18 @@ const App: React.FC = () => {
       <header className="print:hidden sticky top-0 z-50 bg-white border-b border-slate-200 h-20 shrink-0 shadow-sm">
         <div className="max-w-[1800px] mx-auto h-full flex items-center px-6">
           <div className="flex items-center gap-4 shrink-0 mr-8 cursor-pointer" onClick={() => navigateTo(View.INICIO)}>
-            {/* LOGO ACTUALIZADO: Asegúrate de subir 'logo_sb.png' a la raíz de tu repo */}
-            <img 
-              src="./AE_Plantilla/SBLogo.png" 
-              alt="Seguros Bolívar" 
-              className="h-12 w-auto object-contain"
-              onError={(e) => { e.currentTarget.src = "https://placehold.co/100x40?text=Bolivar"; }}
-            />
-            <div className="h-10 w-[1px] bg-slate-200"></div>
-            <div className="flex flex-col leading-none">
-              <span className="text-[13px] font-black text-[#004A3B] uppercase tracking-tight">Arquitectura</span>
-              <span className="text-[13px] font-black text-[#004A3B] uppercase tracking-tight">Empresarial</span>
-            </div>
-          </div>
+  {/* IMAGEN CORREGIDA: Sin onError y apuntando a la carpeta public */}
+  <img 
+    src="/AE_Plantilla/SBLogo.png" 
+    alt="Seguros Bolívar" 
+    className="h-12 w-auto object-contain"
+  />
+  <div className="h-10 w-[1px] bg-slate-200"></div>
+  <div className="flex flex-col leading-none">
+    <span className="text-[13px] font-black text-[#004A3B] uppercase tracking-tight">Arquitectura</span>
+    <span className="text-[13px] font-black text-[#004A3B] uppercase tracking-tight">Empresarial</span>
+  </div>
+</div>
 
           <nav className="hidden xl:flex items-center h-full flex-1 overflow-x-auto no-scrollbar">
             {navItems.map((item) => (
@@ -126,11 +123,13 @@ const App: React.FC = () => {
 
       {/* PRINT VIEW: Solo visible al imprimir. Renderiza TODAS las vistas en orden */}
       <div className="hidden print:block print:p-8 bg-white">
-        <div className="mb-10 border-b-2 border-[#004A3B] pb-4">
-   <img src={logo} className="h-16 w-auto mb-4" />
-   <h1 className="text-4xl font-black text-[#004A3B]">Reporte de Arquitectura Empresarial</h1>
-           <p className="text-slate-500">Generado automáticamente</p>
-        </div>
+  <div className="mb-10 border-b-2 border-[#004A3B] pb-4">
+     {/* IMAGEN CORREGIDA */}
+     <img src="/AE_Plantilla/SBLogo.png" className="h-16 w-auto mb-4" />
+     <h1 className="text-4xl font-black text-[#004A3B]">Reporte de Arquitectura Empresarial</h1>
+     <p className="text-slate-500">Generado automáticamente</p>
+  </div>
+  {/* ... resto del código ... */}
         
         {navItems.filter(i => i.view !== View.INICIO).map((item) => (
           <div key={item.view} className="break-before-page mb-12 border-b border-slate-100 pb-12">
