@@ -13,6 +13,7 @@ import RecommendationsView from './views/RecommendationsView.tsx';
 import RisksView from './views/RisksView.tsx';
 import RoadmapView from './views/RoadmapView.tsx';
 import HomeView from './views/HomeView.tsx';
+import logo from './SBLogo.png';
 
 console.log('📦 App.tsx cargado correctamente.');
 
@@ -125,8 +126,8 @@ const App: React.FC = () => {
       {/* PRINT VIEW: Solo visible al imprimir. Renderiza TODAS las vistas en orden */}
       <div className="hidden print:block print:p-8 bg-white">
         <div className="mb-10 border-b-2 border-[#004A3B] pb-4">
-           <img src="./AE_Plantilla/SBLogo.png" className="h-16 w-auto mb-4" />
-           <h1 className="text-4xl font-black text-[#004A3B]">Reporte de Arquitectura Empresarial</h1>
+   <img src={logo} className="h-16 w-auto mb-4" />
+   <h1 className="text-4xl font-black text-[#004A3B]">Reporte de Arquitectura Empresarial</h1>
            <p className="text-slate-500">Generado automáticamente</p>
         </div>
         
