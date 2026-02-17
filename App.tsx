@@ -13,6 +13,7 @@ import RecommendationsView from './views/RecommendationsView.tsx';
 import RisksView from './views/RisksView.tsx';
 import RoadmapView from './views/RoadmapView.tsx';
 import HomeView from './views/HomeView.tsx';
+import logoSb from './SBLogo.png';
 
 console.log('📦 App.tsx cargado correctamente.');
 
