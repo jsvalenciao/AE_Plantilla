@@ -1,6 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { View } from './types.ts';
+
+// Importamos TODAS las vistas
 import DecisionsView from './views/DecisionsView.tsx';
 import AsIsView from './views/AsIsView.tsx';
 import GapView from './views/GapView.tsx';
@@ -20,7 +21,6 @@ const App: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    console.log('✅ App montada. Vista actual:', currentView);
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '') as View;
       if (Object.values(View).includes(hash)) {
@@ -36,24 +36,7 @@ const App: React.FC = () => {
     setCurrentView(view);
     window.location.hash = view;
     setIsMobileMenuOpen(false);
-    document.querySelector('main')?.scrollTo(0,0);
-  };
-
-  const renderView = () => {
-    switch (currentView) {
-      case View.INICIO: return <HomeView onNavigate={navigateTo} />;
-      case View.DECISIONES: return <DecisionsView onNavigate={navigateTo} />;
-      case View.AS_IS: return <AsIsView onNavigate={navigateTo} />;
-      case View.GAPS: return <GapView onNavigate={navigateTo} />;
-      case View.TO_BE: return <ToBeView onNavigate={navigateTo} />;
-      case View.CAPACIDADES: return <CapabilitiesView onNavigate={navigateTo} />;
-      case View.ALTERNATIVAS: return <AlternativesView onNavigate={navigateTo} />;
-      case View.SCORECARD: return <ScorecardView onNavigate={navigateTo} />;
-      case View.RECOMENDACIONES: return <RecommendationsView onNavigate={navigateTo} />;
-      case View.RIESGOS: return <RisksView onNavigate={navigateTo} />;
-      case View.ROADMAP: return <RoadmapView onNavigate={navigateTo} />;
-      default: return <HomeView onNavigate={navigateTo} />;
-    }
+    window.scrollTo(0,0);
   };
 
   const navItems = [
@@ -70,15 +53,36 @@ const App: React.FC = () => {
     { view: View.ROADMAP, label: "Hoja de Ruta" },
   ];
 
+  // Función para renderizar una vista específica (usada en navegación normal)
+  const renderView = (view: View) => {
+    switch (view) {
+      case View.INICIO: return <HomeView onNavigate={navigateTo} />;
+      case View.DECISIONES: return <DecisionsView onNavigate={navigateTo} />;
+      case View.AS_IS: return <AsIsView onNavigate={navigateTo} />;
+      case View.GAPS: return <GapView onNavigate={navigateTo} />;
+      case View.TO_BE: return <ToBeView onNavigate={navigateTo} />;
+      case View.CAPACIDADES: return <CapabilitiesView onNavigate={navigateTo} />;
+      case View.ALTERNATIVAS: return <AlternativesView onNavigate={navigateTo} />;
+      case View.SCORECARD: return <ScorecardView onNavigate={navigateTo} />;
+      case View.RECOMENDACIONES: return <RecommendationsView onNavigate={navigateTo} />;
+      case View.RIESGOS: return <RisksView onNavigate={navigateTo} />;
+      case View.ROADMAP: return <RoadmapView onNavigate={navigateTo} />;
+      default: return <HomeView onNavigate={navigateTo} />;
+    }
+  };
+
   return (
     <div className="flex flex-col h-screen bg-canvas-bg font-sans">
-      <header className="no-print sticky top-0 z-50 bg-white border-b border-slate-200 h-20 shrink-0 shadow-sm">
+      
+      {/* HEADER: Se oculta al imprimir (print:hidden) */}
+      <header className="print:hidden sticky top-0 z-50 bg-white border-b border-slate-200 h-20 shrink-0 shadow-sm">
         <div className="max-w-[1800px] mx-auto h-full flex items-center px-6">
           <div className="flex items-center gap-4 shrink-0 mr-8 cursor-pointer" onClick={() => navigateTo(View.INICIO)}>
+            {/* LOGO ACTUALIZADO: Asegúrate de subir 'logo_sb.png' a la raíz de tu repo */}
             <img 
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Logo_Seguros_Bol%C3%ADvar.svg/512px-Logo_Seguros_Bol%C3%ADvar.svg.png" 
+              src="./logo_sb.png" 
               alt="Seguros Bolívar" 
-              className="h-10 w-auto object-contain"
+              className="h-12 w-auto object-contain"
               onError={(e) => { e.currentTarget.src = "https://placehold.co/100x40?text=Bolivar"; }}
             />
             <div className="h-10 w-[1px] bg-slate-200"></div>
@@ -107,36 +111,39 @@ const App: React.FC = () => {
                 <span className="material-symbols-outlined text-lg">picture_as_pdf</span>
                 GENERAR PDF
              </button>
-            <button 
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="xl:hidden p-2 text-slate-500 hover:bg-slate-100 rounded-lg"
-            >
-              <span className="material-symbols-outlined">{isMobileMenuOpen ? 'close' : 'menu'}</span>
-            </button>
           </div>
         </div>
-
-        {isMobileMenuOpen && (
-          <div className="absolute top-20 left-0 w-full bg-white border-b border-slate-200 shadow-2xl xl:hidden z-50 animate-in slide-in-from-top-4 duration-200">
-            <div className="p-4 grid grid-cols-2 gap-2">
-              {navItems.map(item => (
-                <MobileNavBtn 
-                  key={item.view}
-                  active={currentView === item.view} 
-                  label={item.label} 
-                  onClick={() => navigateTo(item.view)} 
-                />
-              ))}
-            </div>
-          </div>
-        )}
       </header>
 
-      <main className="flex-1 overflow-y-auto bg-canvas-bg scrollbar-thin">
-        <div className={currentView === View.INICIO ? "" : "max-w-[1800px] mx-auto p-6 md:p-10"}>
-          {renderView()}
+      {/* MAIN VIEW: Vista interactiva normal (se oculta al imprimir) */}
+      <main className="flex-1 overflow-y-auto bg-canvas-bg scrollbar-thin print:hidden">
+        <div className="standard-view-container max-w-[1800px] mx-auto p-6 md:p-10">
+          {renderView(currentView)}
         </div>
       </main>
+
+      {/* PRINT VIEW: Solo visible al imprimir. Renderiza TODAS las vistas en orden */}
+      <div className="hidden print:block print:p-8 bg-white">
+        <div className="mb-10 border-b-2 border-[#004A3B] pb-4">
+           <img src="./logo_sb.png" className="h-16 w-auto mb-4" />
+           <h1 className="text-4xl font-black text-[#004A3B]">Reporte de Arquitectura Empresarial</h1>
+           <p className="text-slate-500">Generado automáticamente</p>
+        </div>
+        
+        {navItems.filter(i => i.view !== View.INICIO).map((item) => (
+          <div key={item.view} className="break-before-page mb-12 border-b border-slate-100 pb-12">
+            <div className="mb-6">
+               <span className="text-[10px] font-black uppercase tracking-widest text-[#D4A056]">{item.label}</span>
+            </div>
+            {renderView(item.view)}
+          </div>
+        ))}
+        
+        <div className="text-center text-xs text-slate-400 mt-10">
+           Documento confidencial - Seguros Bolívar
+        </div>
+      </div>
+
     </div>
   );
 };
@@ -148,17 +155,6 @@ const NavPill = ({ active, label, onClick }: any) => (
       active 
         ? 'text-[#004A3B] border-[#004A3B] bg-slate-50' 
         : 'text-slate-400 border-transparent hover:text-slate-600 hover:bg-slate-50'
-    }`}
-  >
-    {label}
-  </button>
-);
-
-const MobileNavBtn = ({ active, label, onClick }: any) => (
-  <button 
-    onClick={onClick}
-    className={`px-4 py-3 rounded-xl text-left text-[13px] font-bold transition-all ${
-      active ? 'bg-[#004A3B] text-white' : 'bg-slate-50 text-slate-600'
     }`}
   >
     {label}
