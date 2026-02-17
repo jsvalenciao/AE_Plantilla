@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { View } from '../types';
+import { View } from '../types.ts';
 
 interface Props {
   onNavigate: (view: View) => void;

@@ -1,14 +1,14 @@
 
 import React from 'react';
-import { View } from '../types';
+import { View } from '../types.ts';
 
 interface Props {
   onNavigate: (view: View) => void;
 }
 
 const HomeView: React.FC<Props> = ({ onNavigate }) => {
-  // window.location.href captura automáticamente la URL de GitHub cuando estés en vivo
-  const currentAppUrl = window.location.href;
+  // Capturamos la URL exacta para que el QR funcione en GitHub Pages
+  const currentAppUrl = typeof window !== 'undefined' ? window.location.href : '';
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(currentAppUrl)}&color=004A3B&bgcolor=FFFFFF&qzone=2`;
 
   return (
@@ -49,9 +49,6 @@ const HomeView: React.FC<Props> = ({ onNavigate }) => {
                 />
             </div>
             <p className="text-[10px] font-bold text-slate-500 max-w-[140px] leading-tight text-center">Escanea para abrir en cualquier dispositivo móvil</p>
-            {window.location.hostname === 'localhost' && (
-              <p className="text-[8px] text-red-500 font-bold mt-2 uppercase px-2 py-1 bg-red-50 rounded">⚠️ Vista Local (QR en pruebas)</p>
-            )}
         </div>
 
         {/* Metric Cards */}

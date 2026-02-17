@@ -1,17 +1,17 @@
 
 import React, { useState, useEffect } from 'react';
-import { View } from './types';
-import DecisionsView from './views/DecisionsView';
-import AsIsView from './views/AsIsView';
-import GapView from './views/GapView';
-import ToBeView from './views/ToBeView';
-import CapabilitiesView from './views/CapabilitiesView';
-import AlternativesView from './views/AlternativesView';
-import ScorecardView from './views/ScorecardView';
-import RecommendationsView from './views/RecommendationsView';
-import RisksView from './views/RisksView';
-import RoadmapView from './views/RoadmapView';
-import HomeView from './views/HomeView';
+import { View } from './types.ts';
+import DecisionsView from './views/DecisionsView.tsx';
+import AsIsView from './views/AsIsView.tsx';
+import GapView from './views/GapView.tsx';
+import ToBeView from './views/ToBeView.tsx';
+import CapabilitiesView from './views/CapabilitiesView.tsx';
+import AlternativesView from './views/AlternativesView.tsx';
+import ScorecardView from './views/ScorecardView.tsx';
+import RecommendationsView from './views/RecommendationsView.tsx';
+import RisksView from './views/RisksView.tsx';
+import RoadmapView from './views/RoadmapView.tsx';
+import HomeView from './views/HomeView.tsx';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>(View.INICIO);
@@ -33,6 +33,8 @@ const App: React.FC = () => {
     setCurrentView(view);
     window.location.hash = view;
     setIsMobileMenuOpen(false);
+    // Scroll al inicio al cambiar de vista
+    document.querySelector('main')?.scrollTo(0,0);
   };
 
   const renderView = () => {
@@ -66,21 +68,17 @@ const App: React.FC = () => {
     { view: View.ROADMAP, label: "Hoja de Ruta" },
   ];
 
-  const handlePrint = (e: React.MouseEvent) => {
-    e.preventDefault();
-    // Ejecución directa de impresión del navegador
-    window.print();
-  };
-
   return (
     <div className="flex flex-col h-screen bg-canvas-bg font-sans">
       <header className="no-print sticky top-0 z-50 bg-white border-b border-slate-200 h-20 shrink-0 shadow-sm">
         <div className="max-w-[1800px] mx-auto h-full flex items-center px-6">
           <div className="flex items-center gap-4 shrink-0 mr-8 cursor-pointer" onClick={() => navigateTo(View.INICIO)}>
+            {/* Logo Bolívar - Usando URL persistente y escalable */}
             <img 
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Logo_Seguros_Bol%C3%ADvar.svg/512px-Logo_Seguros_Bol%C3%ADvar.svg.png" 
               alt="Seguros Bolívar" 
-              className="h-9 w-auto object-contain block"
+              className="h-10 w-auto object-contain"
+              onError={(e) => { e.currentTarget.src = "https://placehold.co/100x40?text=Bolivar"; }}
             />
             <div className="h-10 w-[1px] bg-slate-200"></div>
             <div className="flex flex-col leading-none">
@@ -102,8 +100,8 @@ const App: React.FC = () => {
 
           <div className="flex items-center gap-3 ml-4">
              <button 
-                onClick={handlePrint}
-                className="hidden lg:flex items-center gap-2 px-5 py-2.5 bg-[#004A3B] text-white rounded-xl text-xs font-black hover:bg-[#00382D] transition-all shadow-md"
+                onClick={() => window.print()}
+                className="hidden lg:flex items-center gap-2 px-5 py-2.5 bg-[#004A3B] text-white rounded-xl text-xs font-black hover:bg-[#00382D] transition-all shadow-md active:scale-95"
              >
                 <span className="material-symbols-outlined text-lg">picture_as_pdf</span>
                 GENERAR PDF
