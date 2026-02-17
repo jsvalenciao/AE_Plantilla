@@ -13,11 +13,14 @@ import RisksView from './views/RisksView.tsx';
 import RoadmapView from './views/RoadmapView.tsx';
 import HomeView from './views/HomeView.tsx';
 
+console.log('📦 App.tsx cargado correctamente.');
+
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>(View.INICIO);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
+    console.log('✅ App montada. Vista actual:', currentView);
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '') as View;
       if (Object.values(View).includes(hash)) {
@@ -33,7 +36,6 @@ const App: React.FC = () => {
     setCurrentView(view);
     window.location.hash = view;
     setIsMobileMenuOpen(false);
-    // Scroll al inicio al cambiar de vista
     document.querySelector('main')?.scrollTo(0,0);
   };
 
@@ -73,7 +75,6 @@ const App: React.FC = () => {
       <header className="no-print sticky top-0 z-50 bg-white border-b border-slate-200 h-20 shrink-0 shadow-sm">
         <div className="max-w-[1800px] mx-auto h-full flex items-center px-6">
           <div className="flex items-center gap-4 shrink-0 mr-8 cursor-pointer" onClick={() => navigateTo(View.INICIO)}>
-            {/* Logo Bolívar - Usando URL persistente y escalable */}
             <img 
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Logo_Seguros_Bol%C3%ADvar.svg/512px-Logo_Seguros_Bol%C3%ADvar.svg.png" 
               alt="Seguros Bolívar" 

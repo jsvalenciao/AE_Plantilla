@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL,GRAD,opsz@100..700,0..1,-25..0,20..48" rel="stylesheet">
     
-    <!-- Compilador Babel (Necesario para que GitHub Pages lea .tsx) -->
+    <!-- Compilador Babel (Necesario para procesar .tsx en el navegador) -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <script>
@@ -30,51 +30,77 @@
                 }
             }
         }
+
+        // Sistema de diagnóstico de errores
+        window.onerror = function(message, source, lineno, colno, error) {
+            console.error("Critical Runtime Error:", message, error);
+            const root = document.getElementById('root');
+            if (root && root.innerHTML.includes('animate-spin')) {
+                root.innerHTML = `
+                    <div style="padding: 40px; background: white; border: 1px solid #e2e8f0; border-radius: 24px; margin: 40px auto; max-width: 600px; font-family: 'Inter', sans-serif; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+                            <span class="material-symbols-outlined" style="color: #ef4444; font-size: 32px;">error</span>
+                            <h1 style="color: #0f172a; font-size: 20px; font-weight: 800; margin: 0;">Fallo de Inicialización</h1>
+                        </div>
+                        <p style="font-size: 14px; color: #64748b; line-height: 1.6;">La aplicación no pudo arrancar debido a un conflicto de versiones de React en el navegador.</p>
+                        <div style="background: #f8fafc; padding: 16px; font-family: monospace; font-size: 11px; overflow: auto; border-radius: 12px; margin-top: 16px; border: 1px solid #e2e8f0; color: #ef4444;">
+                            ${message}
+                        </div>
+                        <button onclick="location.reload()" style="margin-top: 24px; width: 100%; padding: 12px; background: #004A3B; color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer;">
+                            RECARGAR SITIO
+                        </button>
+                    </div>
+                `;
+            }
+        };
     </script>
 
     <style>
-        body { 
-            background-color: #F8FAFC; 
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-        }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        
+        body { background-color: #F8FAFC; font-family: 'Inter', sans-serif; margin: 0; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
         @media print {
             .no-print { display: none !important; }
             body { background: white !important; overflow: visible !important; }
-            main { overflow: visible !important; height: auto !important; }
-            #root { height: auto !important; }
-            .overflow-y-auto { overflow: visible !important; height: auto !important; }
-            @page { size: landscape; margin: 1cm; }
+            #root, main { height: auto !important; overflow: visible !important; }
         }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 
-    <!-- Configuración de módulos consolidada para evitar conflictos de versiones (Error #31) -->
+    <!-- IMPORTANTE: Se unificaron TODAS las rutas a 18.2.0. El Error #31 ocurre cuando se mezclan v18 y v19 -->
     <script type="importmap">
     {
       "imports": {
         "react": "https://esm.sh/react@18.2.0",
-        "react/": "https://esm.sh/react@18.2.0/",
         "react-dom": "https://esm.sh/react-dom@18.2.0",
-        "react-dom/": "https://esm.sh/react-dom@18.2.0/",
-        "react-dom/client": "https://esm.sh/react-dom@18.2.0/client"
+        "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+        "react/": "https://esm.sh/react@18.2.0/",
+        "react-dom/": "https://esm.sh/react-dom@18.2.0/"
       }
     }
     </script>
 </head>
 <body class="antialiased text-slate-900 overflow-hidden">
     <div id="root">
-        <!-- Loader inicial para mejorar UX mientras Babel compila -->
-        <div class="flex flex-col items-center justify-center h-screen bg-[#004A3B] text-white">
-            <div class="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin mb-4"></div>
-            <p class="font-bold tracking-widest text-xs uppercase opacity-50">Cargando Arquitectura...</p>
+        <div class="flex flex-col items-center justify-center h-screen bg-[#004A3B] text-white overflow-hidden relative">
+            <div class="absolute inset-0 opacity-10">
+                <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-white blur-[120px]"></div>
+                <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-[#D4A056] blur-[120px]"></div>
+            </div>
+            <div class="relative z-10 flex flex-col items-center">
+                <div class="w-16 h-16 border-4 border-white/10 border-t-[#D4A056] rounded-full animate-spin mb-8 shadow-2xl"></div>
+                <div class="flex flex-col items-center gap-2 text-center">
+                    <h2 class="font-black text-xl tracking-[0.2em] uppercase">Seguros Bolívar</h2>
+                    <div class="h-[2px] w-12 bg-[#D4A056] mb-2 rounded-full"></div>
+                    <p id="loading-text" class="font-bold tracking-widest text-[10px] uppercase opacity-40">Compilando Ecosistema AE...</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- El script debe ser tipo text/babel para que Babel lo procese -->
+    <!-- El script debe ser procesado por Babel para habilitar TSX -->
     <script type="text/babel" data-type="module">
         import './index.tsx';
     </script>
