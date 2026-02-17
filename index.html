@@ -34,14 +34,7 @@
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
-        .fill-1 { font-variation-settings: 'FILL' 1; }
         
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #CBD5E1; }
-
         @media print {
             .no-print { display: none !important; }
             body { background: white !important; overflow: visible !important; }
@@ -51,7 +44,6 @@
             .overflow-y-auto { overflow: visible !important; height: auto !important; }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
             
-            /* Presentation style for PDF */
             @page {
                 size: landscape;
                 margin: 0;
@@ -78,5 +70,7 @@
 </head>
 <body class="antialiased text-slate-900 overflow-hidden">
     <div id="root"></div>
+    <!-- Carga explícita del módulo para GitHub Pages -->
+    <script type="module" src="./index.tsx"></script>
 </body>
 </html>

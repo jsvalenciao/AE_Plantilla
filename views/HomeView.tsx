@@ -7,9 +7,8 @@ interface Props {
 }
 
 const HomeView: React.FC<Props> = ({ onNavigate }) => {
-  // Aseguramos que la URL sea válida para el QR. 
-  // Nota: Si estás en Localhost, el móvil no podrá abrirlo a menos que el móvil esté en la misma red local.
-  const currentAppUrl = window.location.origin + window.location.pathname;
+  // window.location.href captura automáticamente la URL de GitHub cuando estés en vivo
+  const currentAppUrl = window.location.href;
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(currentAppUrl)}&color=004A3B&bgcolor=FFFFFF&qzone=2`;
 
   return (
@@ -38,26 +37,20 @@ const HomeView: React.FC<Props> = ({ onNavigate }) => {
           Framework estratégico e interactivo para la visualización del ecosistema de arquitectura empresarial.
         </p>
 
-        {/* QR Code and Mobile Access Card - Scaled for scanability */}
+        {/* QR Code and Mobile Access Card */}
         <div className="no-print absolute bottom-12 right-12 hidden lg:flex flex-col items-center bg-white p-6 rounded-3xl shadow-2xl border border-white/20 transform hover:scale-105 transition-transform z-20">
             <p className="text-[10px] font-black text-[#004A3B] uppercase mb-4 tracking-widest">Acceso Móvil</p>
-            <a 
-              href={currentAppUrl} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="bg-white p-3 rounded-2xl border border-slate-100 mb-4 shadow-inner cursor-pointer hover:bg-slate-50 transition-colors"
-              title="Click para probar la URL en una nueva pestaña"
-            >
+            <div className="bg-white p-3 rounded-2xl border border-slate-100 mb-4 shadow-inner">
                 <img 
                   src={qrCodeUrl} 
                   alt="QR Access" 
                   className="w-32 h-32 block"
-                  loading="lazy"
+                  loading="eager"
                 />
-            </a>
-            <p className="text-[10px] font-bold text-slate-500 max-w-[140px] leading-tight">Escanea para abrir en cualquier dispositivo</p>
+            </div>
+            <p className="text-[10px] font-bold text-slate-500 max-w-[140px] leading-tight text-center">Escanea para abrir en cualquier dispositivo móvil</p>
             {window.location.hostname === 'localhost' && (
-              <p className="text-[8px] text-red-400 font-bold mt-2 uppercase">⚠️ Localhost detected</p>
+              <p className="text-[8px] text-red-500 font-bold mt-2 uppercase px-2 py-1 bg-red-50 rounded">⚠️ Vista Local (QR en pruebas)</p>
             )}
         </div>
 

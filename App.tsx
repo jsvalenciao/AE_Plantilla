@@ -68,21 +68,19 @@ const App: React.FC = () => {
 
   const handlePrint = (e: React.MouseEvent) => {
     e.preventDefault();
-    e.stopPropagation();
+    // Ejecución directa de impresión del navegador
     window.print();
   };
 
   return (
     <div className="flex flex-col h-screen bg-canvas-bg font-sans">
-      <header className="no-print sticky top-0 z-50 bg-white border-b border-slate-200 h-20 shrink-0">
+      <header className="no-print sticky top-0 z-50 bg-white border-b border-slate-200 h-20 shrink-0 shadow-sm">
         <div className="max-w-[1800px] mx-auto h-full flex items-center px-6">
-          {/* Logo Section - Fixed URL with Wikimedia Commons */}
           <div className="flex items-center gap-4 shrink-0 mr-8 cursor-pointer" onClick={() => navigateTo(View.INICIO)}>
             <img 
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Logo_Seguros_Bol%C3%ADvar.svg/512px-Logo_Seguros_Bol%C3%ADvar.svg.png" 
               alt="Seguros Bolívar" 
-              className="h-10 w-auto object-contain block"
-              loading="eager"
+              className="h-9 w-auto object-contain block"
             />
             <div className="h-10 w-[1px] bg-slate-200"></div>
             <div className="flex flex-col leading-none">
@@ -105,10 +103,10 @@ const App: React.FC = () => {
           <div className="flex items-center gap-3 ml-4">
              <button 
                 onClick={handlePrint}
-                className="hidden lg:flex items-center gap-2 px-5 py-2.5 bg-[#004A3B] text-white rounded-xl text-xs font-black hover:bg-[#00382D] transition-all shadow-lg active:scale-95 z-50 relative"
+                className="hidden lg:flex items-center gap-2 px-5 py-2.5 bg-[#004A3B] text-white rounded-xl text-xs font-black hover:bg-[#00382D] transition-all shadow-md"
              >
                 <span className="material-symbols-outlined text-lg">picture_as_pdf</span>
-                DESCARGAR PDF
+                GENERAR PDF
              </button>
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
